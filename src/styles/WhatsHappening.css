@@ -1,0 +1,75 @@
+.whats-happening {
+    width: 90%;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .whats-happening h2 {
+    margin: 0 0 15px 0;
+    font-size: 20px;
+    color: #333;
+  }
+  
+  .buttons {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .buttons button {
+    padding: 10px 20px;
+    border: none;
+    background-color: white;
+    color: rgb(92, 88, 88);
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  
+  /* .buttons button:hover {
+    background-color: #0056b3;
+  } */
+  .what-happening-right input {
+    padding: 8px;
+    border: 1px solid #F5F6F8;
+    border-radius: 5px;
+    width: 95%;
+    font-weight: 500;
+    font:bold;
+    font-family: "Montserrat";
+    background-color: #F5F6F8;
+  }
+  
+  .what-happening-right input:focus {
+    outline: none;
+    border-color: #007bff;
+  }
+  .main-button{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'Montserrat';
+    
+  }
+  .main-button button{
+    font-size: 12px;
+  }
+  .blue-button{
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+    margin-right: 24px;
+  }
+
+  .blue-button button{
+    padding: 10px 35px;
+    border: none;
+    background-color: #377DFF;
+    color: white;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 14px;
+  }

@@ -1,0 +1,119 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  .app {
+    min-height: 100vh;
+    background-image: url('/src/assets/Login_background.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    color: white;
+    font-family: system-ui, -apple-system, sans-serif;
+  }
+  
+  .container {
+    min-height: 100vh;
+    background: rgba(0, 0, 0, 0.4);
+    padding: 2rem;
+  }
+  
+  .header {
+    padding: 1rem 0;
+  }
+  
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.5rem;
+    font-weight: 600;
+  }
+  
+  .logo-icon {
+    background: #4d7eff;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+  }
+  
+  .main-content {
+    max-width: 800px;
+    margin: 0 auto;
+    /* padding-top: 15vh; */
+    text-align: center;
+  }
+  
+  h1 {
+    font-size: 40px;
+    line-height: 60px;
+    margin-bottom: 1rem;
+    font-weight: 600;
+  }
+  
+  p {
+    font-size: 1.25rem;
+    margin-bottom: 2rem;
+    opacity: 0.9;
+  }
+  
+  .button-group {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  
+  .btn {
+    padding: 0.75rem 2rem;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    border: none;
+    transition: transform 0.2s;
+  }
+  
+  .btn:hover {
+    transform: translateY(-1px);
+  }
+  
+  .btn-primary {
+    background: #4d7eff;
+    color: white;
+  }
+  
+  .btn-secondary {
+    background: white;
+    color: black;
+  }
+  
+  .or {
+    opacity: 0.7;
+  }
+  
+  @media (max-width: 480px) {
+    .container {
+      padding: 1rem;
+    }
+    
+    .main-content {
+      padding-top: 10vh;
+    }
+    
+    .button-group {
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    
+    .btn {
+      width: 100%;
+    }
+  }
+  

@@ -1,0 +1,106 @@
+.post {
+    width: 90%;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    font-family: 'Montserrat';
+  }
+  
+  .post-header {
+    margin-bottom: 15px;
+  }
+  
+  .post-header h2 {
+    margin: 0;
+    font-weight: 600;
+    font-size: 18px;
+    color: #606165;
+    line-height: '21.94px';
+  }
+  
+  .post-header .post-time {
+    font-size: 14px;
+    color: #606165;
+    font-weight: 400;
+    line-height: 17.07px;
+  }
+  
+  .post-content p {
+    margin: 0;
+    font-size: 14px;
+    color: #606165;
+    font-weight: 400;
+    line-height: 21px;
+  }
+  
+  .post-stats {
+    display: flex;
+    gap: 15px;
+    margin: 15px 0;
+    font-size: 14px;
+    color: #666;
+  }
+  
+  .post-actions {
+    display: flex;
+    gap: 194px;
+    margin: 15px 0;
+    border-top: 1px solid #ccc; /* Top border */
+    border-bottom: 1px solid #ccc; /* Bottom border */
+    border-left: none; /* No left border */
+    border-right: none; /* No right border */
+  }
+  
+  .post-actions button {
+    padding: 8px 16px;
+    border: none;
+    background-color: white;
+    color: #606165;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 17.5px;
+  }
+  
+  /* .post-actions button:hover {
+    background-color: #0056b3;
+  } */
+  
+  .post-comment-box input {
+    padding: 8px;
+    border: 1px solid #F5F6F8;
+    border-radius: 5px;
+    width: 95%;
+    font-weight: 500;
+    font:bold;
+    font-family: "Montserrat";
+    background-color: #F5F6F8;
+  }
+  
+  .post-comment-box input:focus {
+    outline: none;
+    border-color: #007bff;
+  }
+  .btn-img{
+    display: flex;
+    align-items: center;
+   text-align: center;
+    align-content: center;
+    font-family: 'Montserrat';
+    font-weight: 500;
+    size: 14px;
+  }
+
+  .btn-img img{
+    width: 18px;
+    height: 18px;
+    gap:12px;
+    
+  }
+  .three_dot{
+    margin-bottom: 500px;
+  }

@@ -1,0 +1,64 @@
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: white;
+   
+    width: 90%; /* Set width to 90% */
+    margin: 0 auto; /* Center the navbar horizontally */
+    box-sizing: border-box; /* Include padding in width calculation */
+    margin-top: '100px';
+  }
+  .navbar-left{
+    display: flex;
+   gap: 28px;
+  }
+  .navbar-left img {
+    
+    width: 32px;
+    height: 34.3px; /* Remove the single quotes */
+}
+
+.navbar-right{
+  margin-left: 90px;
+}
+  .navbar-left h1 {
+    margin: 0;
+    font-family: "Montserrat";
+    font-size: 18px;
+    line-height: 33.8px;
+    color: #727070;
+    size: 28px;
+  }
+  
+  .navbar-right input {
+    padding: 2px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    width: 761px;
+    left:497px;
+    top:20px;
+    font-weight: 500;
+    font-family: "Montserrat";
+    background-color: white;
+    padding-left: 30px; 
+    text-indent: 10px;
+  }
+  
+  .navbar-right input:focus {
+    outline: none;
+    border-color: #007bff;
+  }
+
+  .image-input {
+    background-image: url('../assets/Vector.png'); /* Adjust the path */
+    background-repeat: no-repeat;
+    background-position: 10px center; /* Adjust position as needed */
+    background-size: 20px; /* Adjust size as needed */
+    padding-left: 40px; /* Adjust padding to make space for the image */
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    height: 40px;
+    width: 200px;
+}
