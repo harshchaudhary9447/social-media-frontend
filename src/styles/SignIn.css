@@ -164,7 +164,9 @@
   .signup-link:hover {
     text-decoration: underline;
   }
-  
+  .error-text{
+    color: red;
+  }
   /* Responsive styles */
   @media (max-width: 480px) {
     .login-form {
