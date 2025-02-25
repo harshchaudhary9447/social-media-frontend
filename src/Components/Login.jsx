@@ -1,6 +1,6 @@
 import React from 'react';
 import '../styles/Login.css';
-
+import Logo from '../assets/Group.png';
 
 const Login = () => {
 
@@ -8,15 +8,15 @@ const Login = () => {
         <div className="app">
           <div className="container">
             <header className="header">
-              <div className="logo">
-                <span className="logo-icon">M</span>
-                <span className="logo-text">Maze</span>
+              <div className="logo1">
+                <span className="logo-icon1"><img src={Logo}></img></span>
+                <span className="logo-text1">Maze</span>
               </div>
             </header>
             
-            <main className="main-content">
-              <h1>Social media shared today,<br />tomorrow or by location</h1>
-              <p>Discover with Maze</p>
+            <main className="main-content2">
+              <h1 className='h1'>Social media shared today,<br />tomorrow or by location</h1>
+              <p className='p1'>Discover with Maze</p>
               
               <div className="button-group">
                 <button className="btn btn-primary">Create account</button>

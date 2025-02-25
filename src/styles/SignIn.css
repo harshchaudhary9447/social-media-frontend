@@ -1,0 +1,179 @@
+.login-container {
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    background-image: url("https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Signup%20(2)-zfdqRcDCUh4tJ9zV5O31hh0f5kmtHf.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
+  }
+  
+  .login-container::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 1;
+  }
+  
+  /* Logo styles */
+  .logo-container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 24px;
+    position: relative;
+    z-index: 2;
+  }
+  
+  .logo {
+    width: 40px;
+    height: 40px;
+    background-color: #3b82f6;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .logo span {
+    color: white;
+    font-size: 24px;
+    font-weight: 600;
+  }
+  
+  .logo-text {
+    color: white;
+    font-size: 24px;
+    font-weight: 600;
+    margin: 0;
+  }
+  
+  /* Form Container styles */
+  .login-form-container {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 2;
+    padding: 20px;
+  }
+  
+  .login-form {
+    background: rgba(33, 33, 33, 0.75);
+    backdrop-filter: blur(10px);
+    padding: 40px;
+    border-radius: 16px;
+    width: 100%;
+    max-width: 400px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  }
+  
+  .login-form h2 {
+    color: white;
+    margin: 0 0 24px 0;
+    font-size: 24px;
+    font-weight: 600;
+  }
+  
+  /* Form Group styles */
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  .form-group label {
+    display: block;
+    color: white;
+    /* margin-bottom: 8px; */
+    font-size: 14px;
+  }
+  
+  .form-group input:not([type="checkbox"]) {
+    width: 100%;
+    padding: 9px;
+    background: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+  }
+  
+  .form-group input:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px #3b82f6;
+  }
+  
+  /* Checkbox styles */
+  .form-group.checkbox {
+    display: flex;
+    align-items: center;
+  }
+  
+  .form-group.checkbox label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+    cursor: pointer;
+  }
+  
+  .form-group.checkbox input {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+  }
+  
+  /* Button styles */
+  .login-button {
+    width: 100%;
+    padding: 12px;
+    background: #3b82f6;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-bottom: 16px;
+  }
+  
+  .login-button:hover {
+    background: #2563eb;
+  }
+  
+  /* Sign up text styles */
+  .signup-text {
+    color: white;
+    text-align: center;
+    margin: 0;
+    font-size: 14px;
+  }
+  
+  .signup-link {
+    color: #3b82f6;
+    text-decoration: none;
+    font-weight: 500;
+  }
+  
+  .signup-link:hover {
+    text-decoration: underline;
+  }
+  
+  /* Responsive styles */
+  @media (max-width: 480px) {
+    .login-form {
+      padding: 24px;
+    }
+  
+    .logo-container {
+      padding: 16px;
+    }
+  }
+  
+  

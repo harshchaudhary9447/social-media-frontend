@@ -1,37 +1,70 @@
-import { useState } from "react"
-import React from 'react'
-import '../styles/SignUp.css'
+import { useState } from "react";
+import API from "../api/axiosInstance"; // Import axios instance
+import { useNavigate } from "react-router-dom";
+import '../styles/SignUp.css';
+
 const SignUp = () => {
-  
-   const [formData, setFormData] = useState({
+  const navigate = useNavigate();
+
+  const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
     email: '',
     phone: '',
     password: '',
     confirmPassword: '',
-    rememberMe: false,
-    agreeToTerms: false
-  })
+  });
+
+  const [error, setError] = useState(""); // Handle errors
 
   const handleChange = (e) => {
-    const { name, value, type, checked } = e.target
-    setFormData(prev => ({
+    const { name, value } = e.target;
+    setFormData((prev) => ({
       ...prev,
-      [name]: type === 'checkbox' ? checked : value
-    }))
-  }
+      [name]: value,
+    }));
+  };
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    console.log(formData)
-  }
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (formData.password !== formData.confirmPassword) {
+      setError("Passwords do not match!");
+      return;
+    }
+
+    try {
+      const response = await API.post("/users", {
+        user: {
+          email: formData.email,
+          password: formData.password,
+          first_name: formData.firstName,
+          last_name: formData.lastName,
+          phone: formData.phone,
+        },
+      });
+
+
+      const token = response.headers["authorization"];
+
+    if (token) {
+      localStorage.setItem("token", token.split(" ")[1]); // Store only the token part
+      // alert("Registration successful! Redirecting...");
+      navigate("/"); // Redirect after successful registration
+    } else {
+      alert("Registration successful, but no token received.");
+    }
+    } catch (error) {
+      console.error("Registration failed:", error.response?.data || error.message);
+      alert("Registration failed! Please try again.");
+    }
+  };
 
   return (
     <div className="app">
       <header className="header">
         <div className="logo">
-          <span className="logo-icon">M</span>
+          {/* <span className="logo-icon">M</span> */}
           <span className="logo-text">Maze</span>
         </div>
       </header>
@@ -40,6 +73,8 @@ const SignUp = () => {
         <div className="form-container">
           <h1>Create account</h1>
           <p className="subtitle">For business, band or celebrity.</p>
+
+          {error && <p style={{ color: "red" }}>{error}</p>} {/* Show errors */}
 
           <form onSubmit={handleSubmit}>
             <div className="form-grid">
@@ -51,6 +86,7 @@ const SignUp = () => {
                   name="firstName"
                   value={formData.firstName}
                   onChange={handleChange}
+                  required
                 />
               </div>
 
@@ -62,6 +98,7 @@ const SignUp = () => {
                   name="lastName"
                   value={formData.lastName}
                   onChange={handleChange}
+                  required
                 />
               </div>
 
@@ -73,6 +110,7 @@ const SignUp = () => {
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
+                  required
                 />
               </div>
 
@@ -84,6 +122,7 @@ const SignUp = () => {
                   name="phone"
                   value={formData.phone}
                   onChange={handleChange}
+                  required
                 />
               </div>
 
@@ -95,6 +134,7 @@ const SignUp = () => {
                   name="password"
                   value={formData.password}
                   onChange={handleChange}
+                  required
                 />
               </div>
 
@@ -106,46 +146,23 @@ const SignUp = () => {
                   name="confirmPassword"
                   value={formData.confirmPassword}
                   onChange={handleChange}
+                  required
                 />
               </div>
             </div>
 
-            <div className="checkbox-group">
-              <label className="checkbox-container">
-                <input
-                  type="checkbox"
-                  name="rememberMe"
-                  checked={formData.rememberMe}
-                  onChange={handleChange}
-                />
-                <span className="checkmark"></span>
-                Remember me
-              </label>
-
-              <label className="checkbox-container">
-                <input
-                  type="checkbox"
-                  name="agreeToTerms"
-                  checked={formData.agreeToTerms}
-                  onChange={handleChange}
-                />
-                <span className="checkmark"></span>
-                I agree to all the <a href="/terms">Terms</a> and <a href="/privacy">Privacy policy</a>
-              </label>
-            </div>
-
             <button type="submit" className="submit-button">
-              Login
+              Sign Up
             </button>
 
             <p className="login-link">
-              Already have an account? <a href="/login">log in</a>
+              Already have an account? <a href="/login">Log in</a>
             </p>
           </form>
         </div>
       </main>
     </div>
-  )
-}
+  );
+};
 
 export default SignUp;

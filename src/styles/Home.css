@@ -1,12 +1,30 @@
-.main-div{
+.home-container1 {
+    display: flex;
+    width: 98%;
+    min-height: 100vh;
+    background-color: #F5F6F8;
+    border-radius: 15px;
+  }
+  
+  .main-content1 {
+    flex: 1;
+  }
+  
+  .main-item1 {
+    padding: 5px;
     width: 100%;
-   display: flex;
-   align-items: center;
-   flex-direction: column;
-   /* margin-left: 45px; */
-}
-
-.main-item{
-    background-color: #F9FAFB;
-    width: 95%;
-}
+  }
+  
+  /* Add any responsive styles if needed */
+  @media (max-width: 768px) {
+    .home-container1 {
+      flex-direction: column;
+    }
+  
+    .sidebar {
+      width: 100%;
+      min-height: auto;
+    }
+  }
+  
+  

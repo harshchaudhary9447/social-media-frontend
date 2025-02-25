@@ -1,6 +1,6 @@
 .whats-happening {
     width: 90%;
-    margin: 20px auto;
+    margin: 12px;
     padding: 20px;
     background-color: #fff;
     border: 1px solid #ddd;
@@ -33,14 +33,14 @@
     background-color: #0056b3;
   } */
   .what-happening-right input {
-    padding: 8px;
-    border: 1px solid #F5F6F8;
-    border-radius: 5px;
-    width: 95%;
-    font-weight: 500;
-    font:bold;
-    font-family: "Montserrat";
-    background-color: #F5F6F8;
+    padding: 8px !important;
+    border: 1px solid #F5F6F8 !important;
+    border-radius: 5px !important;
+    width: 95% !important;
+    font-weight: 500 !important;
+    font:bold !important;
+    font-family: "Montserrat" !important;
+    background-color: #F5F6F8 !important;
   }
   
   .what-happening-right input:focus {
@@ -72,4 +72,20 @@
     border-radius: 10px;
     cursor: pointer;
     font-size: 14px;
+  }
+  .live{
+    width: 16px;
+    height: 16px;
+    margin-right: 8px;
+  }
+  .photo{
+    width: 16px;
+    height: 16px;
+    margin-right: 8px;
+    margin-bottom: 3px;
+  }
+  .live-video{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
   }

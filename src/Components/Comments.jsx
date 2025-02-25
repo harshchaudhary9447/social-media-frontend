@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import '../styles/Comment.css'
-const Comments = ({ postId ,showAll}) => {
+import "../styles/Comment.css";
+
+const Comments = ({ postId, showAll }) => {
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
- 
 
   useEffect(() => {
     fetchComments();
@@ -12,30 +12,46 @@ const Comments = ({ postId ,showAll}) => {
 
   const fetchComments = async () => {
     try {
-      const response = await axios.get(`http://localhost:3000/posts/${postId}/comments`);
+      const token = localStorage.getItem("token"); // Retrieve token from localStorage
+  
+      if (!token) {
+        console.error("No token found, user must log in");
+        return;
+      }
+  
+      const response = await axios.get(`http://localhost:3000/posts/${postId}/comments`, {
+        headers: {
+          Authorization: `Bearer ${token}`, // Send token in headers
+        },
+      });
       setComments(response.data);
     } catch (error) {
-      console.error("Error fetching comments:", error);
+      console.error("Error fetching comments:", error.response?.data || error.message);
     }
   };
 
   const handleCommentSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(`http://localhost:3000/posts/${postId}/comments`, {
-        comment: { content: newComment },
-      });
-      setComments([...comments, response.data]);
+      const token = localStorage.getItem("token"); // Get JWT token
+      const response = await axios.post(
+        `http://localhost:3000/posts/${postId}/comments`,
+        { content: newComment }, // Corrected payload
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, // Include token in headers
+          },
+        }
+      );
+      setComments([...comments, response.data]); // Append new comment
       setNewComment("");
     } catch (error) {
-      console.error("Error creating comment:", error);
+      console.error("Error creating comment:", error.response?.data || error.message);
     }
   };
 
   return (
     <div className="comments-section">
-     
-
       {/* Comment Input Box */}
       <div className="comment-box">
         <input
@@ -47,10 +63,10 @@ const Comments = ({ postId ,showAll}) => {
         <button type="submit" onClick={handleCommentSubmit}> ➤ </button>
       </div>
 
-      {/* Show only recent comment if not expanded */}
+      {/* Show only the most recent comment if not expanded */}
       {!showAll && comments.length > 0 && (
         <div className="recent-comment">
-          <strong>{comments[comments.length - 1].user}</strong> {/* User Name */}
+          <strong>{comments[comments.length - 1].user?.name || "Anonymous"}</strong> {/* User Name */}
           <p>{comments[comments.length - 1].content}</p>
           <span className="time">2h</span>
         </div>
@@ -61,7 +77,7 @@ const Comments = ({ postId ,showAll}) => {
         <ul className="all-comments">
           {comments.map((comment) => (
             <li key={comment.id}>
-              <strong>{comment.user}</strong> {/* User Name */}
+              <strong>{comment.user?.name || "Anonymous"}</strong> {/* User Name */}
               <p>{comment.content}</p>
               <span className="time">2h</span>
             </li>

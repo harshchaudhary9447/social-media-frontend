@@ -16,10 +16,13 @@ const CreatePost = ({ onPostCreated }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:3000/posts', {
-        post: { title, description },
-      });
-      onPostCreated(response.data); // Notify parent component
+      const token = localStorage.getItem("token");
+      const response = await axios.post(
+        'http://localhost:3000/posts', 
+        { post: { title, description } },  // Request body
+        { headers: { Authorization: `Bearer ${token}` } } // Headers as a separate object
+      );
+      // onPostCreated(response.data); // Notify parent component
       setTitle('');
       setDescription('');
     } catch (error) {

@@ -24,7 +24,7 @@
     padding: 1rem 0;
   }
   
-  .logo {
+  .logo1 {
     display: flex;
     align-items: center;
     gap: 0.5rem;
@@ -32,8 +32,8 @@
     font-weight: 600;
   }
   
-  .logo-icon {
-    background: #4d7eff;
+  .logo-icon1 {
+    /* background: #4d7eff; */
     width: 40px;
     height: 40px;
     display: flex;
@@ -42,24 +42,26 @@
     border-radius: 12px;
   }
   
-  .main-content {
+  .main-content2 {
     max-width: 800px;
     margin: 0 auto;
     /* padding-top: 15vh; */
     text-align: center;
   }
   
-  h1 {
+  .h1 {
     font-size: 40px;
     line-height: 60px;
     margin-bottom: 1rem;
     font-weight: 600;
+    margin-right: 10px !important;
   }
   
-  p {
+  .p1 {
     font-size: 1.25rem;
     margin-bottom: 2rem;
     opacity: 0.9;
+    
   }
   
   .button-group {

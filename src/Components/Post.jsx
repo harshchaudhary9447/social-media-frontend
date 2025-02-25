@@ -1,20 +1,23 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import '../styles/Post.css';
-import Heart from '../assets/Heart.png';
-import CommentLogo from '../assets/Comment_logo.png';
-import Comments from './Comments';
-import axios from 'axios';
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import "../styles/Post.css";
+import Heart from "../assets/Heart.png";
+import CommentLogo from "../assets/Comment_logo.png";
+import ThreeDots from "../assets/three_dots.png";
+import Comments from "./Comments";
+import axios from "axios";
 
-const Post = ({ post }) => {
+const Post = ({ post, onDelete, onUpdate }) => {
   const [comments, setComments] = useState([]);
-  const [time, setTime] = useState('');
+  const [time, setTime] = useState("");
   const [showAll, setShowAll] = useState(false);
-  const [showMenu, setShowMenu] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [editing, setEditing] = useState(false);
+  const [updatedTitle, setUpdatedTitle] = useState(post.title);
+  const [updatedDescription, setUpdatedDescription] = useState(post.description);
 
   useEffect(() => {
     if (!post) return;
-
     if (post?.created_at) {
       const date = new Date(post.created_at);
       const hours = date.getHours();
@@ -28,34 +31,116 @@ const Post = ({ post }) => {
 
   const fetchComments = async () => {
     try {
-      const response = await axios.get(`http://localhost:3000/posts/${post.id}/comments`);
+      const token = localStorage.getItem("token");
+      if (!token) {
+        console.error("No token found, user must log in");
+        return;
+      }
+      const response = await axios.get(`http://localhost:3000/posts/${post.id}/comments`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       setComments(response.data);
     } catch (error) {
-      console.error('Error fetching comments:', error);
+      console.error("Error fetching comments:", error.response?.data || error.message);
     }
   };
 
   const handleDelete = async () => {
     try {
-      await axios.delete(`http://localhost:3000/posts/${post.id}`);
-      onDelete(post.id); // Notify parent component to remove the post from the list
+      const token = localStorage.getItem("token");
+  
+      await axios.delete(`http://localhost:3000/posts/${post.id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+  
+      console.log("Post deleted successfully");
+  
+      onDelete(post.id); // Notify parent to remove post from state
     } catch (error) {
-      console.error('Error deleting post:', error);
+      console.error("Error deleting post:", error.response?.data || error.message);
     }
   };
+  
+
+  const handleUpdate = async () => {
+    try {
+      const token = localStorage.getItem("token");
+  
+      const response = await axios.put(
+        `http://localhost:3000/posts/${post.id}`,
+        { title: updatedTitle, description: updatedDescription },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+  
+      console.log("Post updated successfully:", response.data);
+  
+      onUpdate(response.data); // Notify parent to update post in state
+  
+      setEditing(false);
+    } catch (error) {
+      console.error("Error updating post:", error);
+    }
+  };
+  
 
   return (
     <div className="post">
       <div className="post-header">
-        <Link to={`/posts/${post.id}`}>
-          <h2>{post.title}</h2>
-        </Link>
-        
+        {editing ? (
+          <input
+            type="text"
+            value={updatedTitle}
+            onChange={(e) => setUpdatedTitle(e.target.value)}
+            className="edit-input"
+          />
+        ) : (
+          <Link to={`/posts/${post.id}`}>
+            <h2>{post?.user?.first_name}</h2>
+          </Link>
+        )}
+      <div className="kuch-bhi">
         <span className="post-time">{time} · Public</span>
+
+        {/* Three Dots Dropdown */}
+        <div className="dropdown-container">
+          <img
+            src={ThreeDots}
+            alt="Three Dots"
+            className="three-dots"
+            onClick={() => setDropdownOpen(!dropdownOpen)}
+          />
+          {dropdownOpen && (
+            <div className="dropdown-menu">
+              <button className="dropdown-item" onClick={() => setEditing(!editing)}>
+                {editing ? "Cancel" : "Edit"}
+              </button>
+              <button className="dropdown-item delete" onClick={handleDelete}>
+                Delete
+              </button>
+            </div>
+          )}
+        </div>
+        </div>
       </div>
+
       <div className="post-content">
-        <p>{post.description}</p>
+        {editing ? (
+          <textarea
+            value={updatedDescription}
+            onChange={(e) => setUpdatedDescription(e.target.value)}
+            className="edit-input"
+          />
+        ) : (
+          <p>{post.description}</p>
+        )}
       </div>
+
+      {editing && (
+        <button className="save-btn" onClick={handleUpdate}>
+          Save
+        </button>
+      )}
+
       <div className="post-stats">
         <span>221 Likes</span>
         <span>{comments.length} Comments</span>
