@@ -18,6 +18,7 @@
   .navbar-left{
     display: flex;
    gap: 28px;
+   margin-top: 12px;
   }
   .navbar-left img {
     

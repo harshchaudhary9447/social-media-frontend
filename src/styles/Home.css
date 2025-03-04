@@ -13,6 +13,7 @@
   .main-item1 {
     padding: 5px;
     width: 100%;
+    display: flex;
   }
   
   /* Add any responsive styles if needed */

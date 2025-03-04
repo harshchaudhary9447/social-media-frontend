@@ -3,7 +3,7 @@ import API from "../api/axiosInstance"; // Import axios instance
 import { useNavigate } from "react-router-dom";
 import '../styles/SignUp.css';
 
-const SignUp = () => {
+const SignUp = ({onLogin}) => {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -40,17 +40,21 @@ const SignUp = () => {
           password: formData.password,
           first_name: formData.firstName,
           last_name: formData.lastName,
-          phone: formData.phone,
+          phone_number: formData.phone,
         },
-      });
-
+        
+      }
+     
+    );
+    console.log(formData);
 
       const token = response.headers["authorization"];
 
     if (token) {
-      localStorage.setItem("token", token.split(" ")[1]); // Store only the token part
+       localStorage.setItem("token", token.split(" ")[1]); // Store only the token part
       // alert("Registration successful! Redirecting...");
-      navigate("/"); // Redirect after successful registration
+      if (onLogin) onLogin(token);
+      // navigate("/"); // Redirect after successful registration
     } else {
       alert("Registration successful, but no token received.");
     }
@@ -117,7 +121,7 @@ const SignUp = () => {
               <div className="form-group">
                 <label htmlFor="phone">Phone number</label>
                 <input
-                  type="tel"
+                  type="text"
                   id="phone"
                   name="phone"
                   value={formData.phone}

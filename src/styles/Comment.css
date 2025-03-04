@@ -3,14 +3,17 @@
     /* max-width: 600px; */
     margin: 20px auto;
     font-family: Arial, sans-serif;
+    /* background-color: #F5F6F8; */
+    
   }
   
   .comment-box {
     display: flex;
     align-items: center;
-    border: 1px solid #ddd;
+    /* border: 1px solid #ddd; */
     /* padding: 10px; */
-    border-radius: 8px;
+    border-radius: 10px !important; 
+    background-color: #F5F6F8;
     margin-bottom: 10px;
   }
   
@@ -20,6 +23,7 @@
     padding: 8px;
     font-size: 14px;
     outline: none;
+    background-color: #F5F6F8 !important; 
   }
   
   .comment-box button {

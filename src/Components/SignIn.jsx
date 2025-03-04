@@ -1,17 +1,15 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import API from "../api/axiosInstance"; // Import axios instance
+import API from "../api/axiosInstance";
 import "../styles/SignIn.css";
 
-export default function SignIn() {
+export default function SignIn({ onLogin }) {  // Added onLogin prop
   const navigate = useNavigate();
-
   const [formData, setFormData] = useState({
     email: "",
     password: "",
     rememberMe: false,
   });
-
   const [error, setError] = useState("");
 
   const handleSubmit = async (e) => {
@@ -27,15 +25,19 @@ export default function SignIn() {
       });
 
       console.log("Login Successful:", response.data);
-      localStorage.setItem("token", response.data.token); // Store JWT token
+      
+      // Store token and update parent state
+      localStorage.setItem("token", response.data.token);
+      if (onLogin) onLogin(response.data.token);  // This triggers App re-render
 
-      navigate("/"); // Redirect after successful login
+      navigate("/");
     } catch (err) {
       console.error("Login Error:", err.response?.data || err.message);
       setError(err.response?.data?.error || "Invalid email or password");
     }
   };
 
+  // Rest of the component remains the same
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData((prev) => ({
@@ -59,7 +61,7 @@ export default function SignIn() {
         <form className="login-form" onSubmit={handleSubmit}>
           <h2>Login</h2>
 
-          {error && <p className="error-text">{error}</p>} {/* Display errors */}
+          {error && <p className="error-text">{error}</p>}
 
           <div className="form-group">
             <label htmlFor="email">Email</label>

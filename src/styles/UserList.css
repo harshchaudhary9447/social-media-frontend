@@ -1,0 +1,67 @@
+.maze_usernames_container {
+    background-color: white;
+    border-radius: 8px;
+    padding: 16px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .maze_usernames_title {
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 16px;
+  }
+  
+  .maze_usernames_list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .maze_username_item {
+    display: flex;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid #f0f0f0;
+  }
+  
+  .maze_username_item:last-child {
+    border-bottom: none;
+  }
+  
+  .maze_username_avatar {
+    background-color: #4d7eff;
+    color: white;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    margin-right: 12px;
+  }
+  
+  .maze_username_info {
+    display: flex;
+    align-items: center;
+  }
+  
+  .maze_username_status {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin-right: 8px;
+  }
+  
+  .maze_status_active {
+    background-color: #40c057;
+  }
+  
+  .maze_status_inactive {
+    background-color: #ff6b6b;
+  }
+  
+  .maze_username_text {
+    font-size: 14px;
+    color: #333;
+  }
