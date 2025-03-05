@@ -9,7 +9,7 @@ const Navbar = () => {
       <h1>Maze</h1>
       </div>
       <div className="navbar-right">
-        <input type="text" class="image-input" placeholder="Search for something here..." />
+        <input type="text" className="image-input" placeholder="Search for something here..." />
       </div>
     </nav>
   );

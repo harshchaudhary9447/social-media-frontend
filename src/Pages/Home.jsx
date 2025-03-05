@@ -75,18 +75,19 @@ const Home = ({onLogout}) => {
             <UserReport />
           ) : (
             <div className="main-item1">
-              <div>
+              <div className="left-side-posts">
               <WhatsHappening onNewPost={handleNewPost} />
               {posts.map((post) => (
-                <Post isAdmin={isAdmin} key={post.id} post={post} />
+                <Post isAdmin={isAdmin}  post={post} />
               ))}
             </div>
            
-              <div>
-              <UserNamesList/>
+            {isAdmin && (<div>
+              <UserNamesList alluserdata={allUserData}/>
               </div>
-            </div>
-             
+           
+            )}  
+              </div>
           )}
         </div>
       </div>

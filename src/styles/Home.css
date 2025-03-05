@@ -14,6 +14,16 @@
     padding: 5px;
     width: 100%;
     display: flex;
+    height: 100vh;
+  }
+  .main-item1 > div:first-child {
+    flex: 4; /* 80% of the space */
+    overflow-y: auto;
+  }
+  
+  .main-item1 > div:last-child {
+    flex: 1; /* 20% of the space */
+    overflow-y: auto;
   }
   
   /* Add any responsive styles if needed */
@@ -28,4 +38,20 @@
     }
   }
   
-  
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #eeeded; 
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888; 
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555; 
+}

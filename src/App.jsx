@@ -28,7 +28,7 @@ function App() {
   };
 
   const handleLogout = () => {
-    // localStorage.removeItem("token");
+    localStorage.removeItem("token");
     setToken(null);
     console.log(token+"Inside");
   };

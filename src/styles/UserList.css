@@ -3,25 +3,37 @@
     border-radius: 8px;
     padding: 16px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 273px;
+    margin-top: 12px;
+    /* height: 99.2%; */
   }
   
   .maze_usernames_title {
     font-size: 18px;
-    color: #333;
+    color: #a6a7aa;
     margin-bottom: 16px;
+    Line-height:21.94px;
+    position: sticky;
+    top: 1px;
+    padding-top:20px;
+    padding-bottom: 20px;
+    background-color: white;
   }
   
   .maze_usernames_list {
+    
     list-style-type: none;
-    padding: 0;
+    padding: 4px;
     margin: 0;
+    color:  #9FA0A3 !important;
   }
   
   .maze_username_item {
     display: flex;
     align-items: center;
     padding: 8px 0;
-    border-bottom: 1px solid #f0f0f0;
+   
+    /* border-bottom: 1px solid #f0f0f0; */
   }
   
   .maze_username_item:last-child {
@@ -51,6 +63,9 @@
     height: 8px;
     border-radius: 50%;
     margin-right: 8px;
+  }
+  .main-img{
+    width: 34px;
   }
   
   .maze_status_active {

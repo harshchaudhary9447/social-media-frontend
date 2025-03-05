@@ -2,13 +2,16 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "../styles/Post.css";
 import Heart from "../assets/Heart.png";
+import FilledHeart from "../assets/RedHeart.png";
 import CommentLogo from "../assets/Comment_logo.png";
 import ThreeDots from "../assets/three_dots.png";
 import Comments from "./Comments";
 import axios from "axios";
 
-const Post = ({ post, onDelete, onUpdate, isAdmin }) => {
-  const [comments, setComments] = useState([]);
+const Post = ({ post,  isAdmin }) => {
+  // const [comments, setComments] = useState([]);
+  const [liked, setLiked] = useState(post.liked_by_current_user || false);
+  const [likeCount, setLikeCount] = useState(post.likes_count || 0);
   const [time, setTime] = useState("");
   const [showAll, setShowAll] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -18,6 +21,9 @@ const Post = ({ post, onDelete, onUpdate, isAdmin }) => {
   const [alertMessage, setAlertMessage] = useState("");
   const [showAlert, setShowAlert] = useState(false);
 
+  const token = localStorage.getItem("token");
+
+  console.log(post);
   useEffect(() => {
     if (!post) return;
     if (post?.created_at) {
@@ -26,6 +32,10 @@ const Post = ({ post, onDelete, onUpdate, isAdmin }) => {
       setTime(`${hours}:00 AM`);
     }
   }, [post]);
+
+  // useEffect(() => {
+  //   checkIfLiked();
+  // }, []);
 
   const handleCommentAdded = (newComment) => {
     setPosts(prevPosts => prevPosts.map(post => {
@@ -36,6 +46,38 @@ const Post = ({ post, onDelete, onUpdate, isAdmin }) => {
     }));
   };
 
+  
+
+  // const checkIfLiked = async () => {
+  //   try {
+  //     const response = await axios.get(`http://localhost:3000/posts/${post.id}/likes`, {
+  //       headers: { Authorization: `Bearer ${token}` },
+  //     });
+  //     const userLiked = response.data.some(like => like.user_id === post.user_id);
+  //     setLiked(userLiked);
+  //   } catch (error) {
+  //     console.error("Error checking like status:", error);
+  //   }
+  // };
+
+  const handleLike = async () => {
+    try {
+      if (liked) {
+        await axios.delete(`http://localhost:3000/posts/${post.id}/likes`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        setLikeCount(likeCount - 1);
+      } else {
+        await axios.post(`http://localhost:3000/posts/${post.id}/likes`, {}, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        setLikeCount(likeCount + 1);
+      }
+      setLiked(!liked);
+    } catch (error) {
+      console.error("Error liking/unliking post:", error);
+    }
+  };
   // useEffect(() => {
   //   fetchComments();
   // }, [post.id]);
@@ -91,7 +133,7 @@ const Post = ({ post, onDelete, onUpdate, isAdmin }) => {
       }
 
       console.log("Post deleted successfully");
-      // onDelete(post.id); // Notify parent to remove post from state
+      //onDelete(post.id); // Notify parent to remove post from state
       triggerAlert("Post deleted successfully!"); // Call triggerAlert here
     } catch (error) {
       console.error("Error deleting post:", error.response?.data || error.message);
@@ -109,7 +151,7 @@ const Post = ({ post, onDelete, onUpdate, isAdmin }) => {
       );
   
       console.log("Post updated successfully:", response.data);
-      onUpdate(response.data); // Notify parent to update post in state
+      // onUpdate(response.data); // Notify parent to update post in state
       setEditing(false);
       triggerAlert("Post updated successfully!"); // Call triggerAlert here
     } catch (error) {
@@ -183,14 +225,14 @@ const Post = ({ post, onDelete, onUpdate, isAdmin }) => {
       )}
 
       <div className="post-stats">
-        <span>221 Likes</span>
+      <span>{likeCount} Likes</span>
         <span>{post?.comments?.length || 0} Comments</span>
 
       </div>
       <div className="post-actions">
-        <div className="btn-img">
-          <img src={Heart} alt="Like" />
-          <button>Like</button>
+      <div className="btn-img" onClick={handleLike}>
+          <img src={liked ? FilledHeart : Heart} alt="Like" />
+          <button>{liked ? "Unlike" : "Like"}</button>
         </div>
         <div className="btn-img">
           <img src={CommentLogo} alt="Comment" />
