@@ -72,7 +72,7 @@
     gap: 15px;
   }
   
-   .contact-btn {
+  .contact-btn {
     background: linear-gradient(to right, #667eea, #764ba2);
     border: none;
     padding: 10px 20px;
@@ -80,10 +80,9 @@
     font-weight: bold;
     border-radius: 20px;
     cursor: pointer;
-    /* transition: background 0.3s; */
-  } 
-   
+  }
+  
   .contact-btn:hover {
     background: linear-gradient(to right, #564d9c, #623ea1);
-  } 
+  }
   
