@@ -8,13 +8,14 @@ const Login = () => {
 
     return (
         <div className="app">
+           <div className="logo-container">
+                    <div className="logo">
+                      <img src={Logo} alt="Image"/>
+                    </div>
+                    <h1 className="logo-text">Maze</h1>
+                  </div>
           <div className="container">
-            <header className="header">
-              <div className="logo1">
-                <span className="logo-icon1"><img src={Logo} alt="Logo" /></span>
-                <span className="logo-text1">Maze</span>
-              </div>
-            </header>
+            
             
             <main className="main-content2">
               <h1 className='h1'>Social media shared today,<br />tomorrow or by location</h1>

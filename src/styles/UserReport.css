@@ -107,6 +107,9 @@
   .maze-main-content {
     flex-grow: 1;
     padding: 20px 30px;
+    margin-top: -56px;
+    z-index: 1000;
+    position: sticky
   }
   
   /* Header Styles */

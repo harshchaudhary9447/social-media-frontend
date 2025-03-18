@@ -111,4 +111,39 @@
     font-weight: 500;
   }
   
+  .hamburger {
+    display: none;
+    /* background: black; */
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 10px;
+    z-index: 1000;
+  }
   
+  @media (max-width: 768px) {
+    .hamburger {
+      display: block;
+      position: fixed;
+      top: 45px;
+      left: -1px;
+      background-color: white;
+    }
+  
+    .sidebar {
+      position: fixed;
+      left: -260px;
+      top: 76px !important;
+      width: 256px;
+      height: 100vh;
+      background-color: white;
+      border-right: 1px solid #e5e7eb;
+      transition: left 0.3s ease-in-out;
+      font: black;
+
+    }
+  
+    .sidebar.open {
+      left: 0;
+    }
+  }

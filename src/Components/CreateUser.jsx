@@ -2,6 +2,8 @@ import React from 'react'
 import { useState } from "react";
 import API from "../api/axiosInstance"; // Import axios instance
 import { useNavigate } from "react-router-dom";
+import Navbar from "../Components/Navbar";
+import Sidebar from "../Components/Sidebar";
 import '../styles/CreateUser.css';
 const CreateUser = () => {
     const [showError, setShowError] = useState(true)
@@ -27,7 +29,7 @@ const CreateUser = () => {
                 phone_number: formData.mobile, 
                 email: formData.email,
                 password:"1234567",
-                role: "normal"  // Convert role format
+                role: formData.role  // Convert role format
               } 
             },
             {
@@ -50,6 +52,11 @@ const CreateUser = () => {
       
   
     return (
+      <div>
+      {/* <Navbar /> */}
+      <div className="home-container1">
+        {/* <Sidebar /> */}
+      
       <div className="maze_adduser_container">
         {/* <aside className="maze_adduser_sidebar">
           <div className="maze_adduser_logo">
@@ -142,7 +149,7 @@ const CreateUser = () => {
               <div className="maze_adduser_form_group maze_adduser_full_width">
                 <label className="maze_adduser_label">Assign Role</label>
                 <div className="maze_adduser_roles_grid">
-                  {['Admin', 'Normal'].map((role) => (
+                  {['admin', 'normal'].map((role) => (
                     <label key={role} className="maze_adduser_role_option">
                       <input
                         type="radio"
@@ -188,6 +195,8 @@ const CreateUser = () => {
             </div>
           )} */}
         </main>
+      </div>
+      </div>
       </div>
     );
   };

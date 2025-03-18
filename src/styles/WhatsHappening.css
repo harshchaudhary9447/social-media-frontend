@@ -83,6 +83,28 @@
     font-family: 'Montserrat';
     
   }
+
+  .visibility-selection {
+    display: flex;
+    gap: 10px;
+    margin: 10px 0;
+  }
+  
+  .visibility-selection label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    color: grey;
+  }
+  
+  .visibility-selection input[type="radio"] {
+    accent-color: blue; /* Custom radio button color */
+    width: 18px;
+    height: 18px;
+  }
+  
   .main-button button{
     font-size: 12px;
   }
@@ -117,4 +139,18 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+  }
+
+  @media (max-width: 768px) {
+    .main-button{
+      display: block;
+    }
+    .blue-button button{
+      width:100%;
+      margin-top:6px;
+    }
+
+    .buttons{
+      gap:0px;
+    }
   }

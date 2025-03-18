@@ -8,12 +8,13 @@
     width: 100%; /* Set width to 90% */
     margin: 0 auto; /* Center the navbar horizontally */
     box-sizing: border-box; /* Include padding in width calculation */
-    margin-top: '100px';
+    margin-top: '100px' !important;
     position: sticky;
     top: 0px;
-    padding-left: 30px;
-    padding-right: 30px;
+    padding-left: 30px !important;
+    padding-right: 30px !important;
     z-index: 999 !important;
+    flex-wrap: nowrap !important;
   }
   .navbar-left{
     display: flex;
@@ -70,3 +71,54 @@
     height: 40px;
     width: 200px;
 }
+
+/* 📱 Mobile View Styles */
+/* 📱 Mobile View (Fixing Layout & Alignment) */
+@media (max-width: 768px) {
+  .navbar {
+      padding: 10px 15px;
+      flex-direction: row;
+      align-items: flex-start;
+      justify-content: space-between;
+      height: 91px; /* Keeps elements aligned */
+  }
+
+  .navbar-left {
+    display: flex;
+    align-items: center;
+    gap: 12px; 
+    margin-top: 0px;/* Increase gap for spacing */
+}
+
+.navbar-left h1 {
+    font-size: 18px;
+    font-weight: 600;
+    margin-left: 5px; /* Add slight left margin */
+}
+
+.navbar-left img {
+    width: 32px;
+    height: 34px;
+    margin-left: 5px; /* Push logo slightly right */
+}
+
+  .navbar-right {
+      width: auto;
+      flex-grow: 1;
+      display: flex;
+      justify-content: flex-end;
+      margin-left: 0;
+      margin-right: 0;
+  }
+
+  .navbar-right input {
+      width: 80%;
+      max-width: 220px;
+      height: 36px;
+      padding-left: 40px;
+      background-size: 18px;
+      background-position: 10px center;
+      font-size: 11px !important;
+  }
+}
+

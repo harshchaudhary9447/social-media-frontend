@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import API from "../api/axiosInstance";
 import "../styles/SignIn.css";
+import Logo from '../assets/Group.png';
 
 export default function SignIn({ onLogin }) {  // Added onLogin prop
   const navigate = useNavigate();
@@ -28,6 +29,7 @@ export default function SignIn({ onLogin }) {  // Added onLogin prop
       
       // Store token and update parent state
       localStorage.setItem("token", response.data.token);
+      localStorage.setItem("user", JSON.stringify(response.data));
       if (onLogin) onLogin(response.data.token);  // This triggers App re-render
 
       navigate("/");
@@ -51,7 +53,7 @@ export default function SignIn({ onLogin }) {  // Added onLogin prop
       {/* Logo */}
       <div className="logo-container">
         <div className="logo">
-          <span>M</span>
+          <img src={Logo} alt="Image"/>
         </div>
         <h1 className="logo-text">Maze</h1>
       </div>

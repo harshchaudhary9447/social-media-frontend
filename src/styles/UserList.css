@@ -14,7 +14,7 @@
     margin-bottom: 16px;
     Line-height:21.94px;
     position: sticky;
-    top: 1px;
+    top: -17px;
     padding-top:20px;
     padding-bottom: 20px;
     background-color: white;
@@ -79,4 +79,10 @@
   .maze_username_text {
     font-size: 14px;
     color: #333;
+  }
+
+  @media (max-width: 768px) {
+    .maze_usernames_container {
+      display: none;
+    }
   }

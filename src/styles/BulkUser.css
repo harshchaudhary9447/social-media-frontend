@@ -1,0 +1,57 @@
+.upload-container {
+    width: 600px;
+    margin: 0 auto;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 20px;
+    background-color: white;
+  }
+  
+  .upload-header {
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  .upload-area {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px 0;
+  }
+  
+  .upload-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #3b82f6;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.2s;
+  }
+  
+  .upload-button:hover {
+    background-color: #2563eb;
+  }
+  
+  .cloud-icon {
+    width: 24px;
+    height: 24px;
+    margin-right: 10px;
+    color: white;
+  }
+  
+  .file-input {
+    display: none;
+  }
+  
+  .file-info {
+    margin-top: 15px;
+    font-size: 14px;
+    color: #666;
+  }
+  
+  

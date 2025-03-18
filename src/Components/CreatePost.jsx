@@ -18,7 +18,7 @@ const CreatePost = ({ onPostCreated }) => {
     try {
       const token = localStorage.getItem("token");
       const response = await axios.post(
-        'http://localhost:3000/posts', 
+        'https://dbeb-106-219-162-108.ngrok-free.app/posts', 
         { post: { title, description } },  // Request body
         { headers: { Authorization: `Bearer ${token}` } } // Headers as a separate object
       );

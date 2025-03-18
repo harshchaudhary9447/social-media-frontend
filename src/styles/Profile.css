@@ -1,0 +1,89 @@
+.profile-container {
+    height: 100vh;
+    background: linear-gradient(to right, #f2f3fb, #e2e1e3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .profile-card {
+    border-radius: 15px;
+    background: white;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: 400px;
+    text-align: center;
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .profile-card:hover {
+    transform: scale(1.02);
+  }
+  
+  .profile-img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin-bottom: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  .profile-name {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .profile-role {
+    font-size: 1.2rem;
+    color: #777;
+    margin-bottom: 15px;
+  }
+  
+  .profile-stats {
+    display: flex;
+    justify-content: space-around;
+    background: #f9f9f9;
+    padding: 12px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+  }
+  
+  .stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .stat-value {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .stat-title {
+    font-size: 0.9rem;
+    color: #666;
+  }
+  
+  .profile-btns {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+  }
+  
+   .contact-btn {
+    background: linear-gradient(to right, #667eea, #764ba2);
+    border: none;
+    padding: 10px 20px;
+    color: white;
+    font-weight: bold;
+    border-radius: 20px;
+    cursor: pointer;
+    /* transition: background 0.3s; */
+  } 
+   
+  .contact-btn:hover {
+    background: linear-gradient(to right, #564d9c, #623ea1);
+  } 
+  

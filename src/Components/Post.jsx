@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import { Link } from "react-router-dom";
 import "../styles/Post.css";
 import Heart from "../assets/Heart.png";
@@ -6,10 +6,11 @@ import FilledHeart from "../assets/RedHeart.png";
 import CommentLogo from "../assets/Comment_logo.png";
 import ThreeDots from "../assets/three_dots.png";
 import Comments from "./Comments";
-import axios from "axios";
+import API from "../api/axiosInstance";
 
-const Post = ({ post,  isAdmin }) => {
-  // const [comments, setComments] = useState([]);
+ // Import JWT decoder
+
+const Post = ({ post, onDelete, onUpdate}) => {
   const [liked, setLiked] = useState(post.liked_by_current_user || false);
   const [likeCount, setLikeCount] = useState(post.likes_count || 0);
   const [time, setTime] = useState("");
@@ -18,158 +19,116 @@ const Post = ({ post,  isAdmin }) => {
   const [editing, setEditing] = useState(false);
   const [updatedTitle, setUpdatedTitle] = useState(post.title);
   const [updatedDescription, setUpdatedDescription] = useState(post.description);
-  const [alertMessage, setAlertMessage] = useState("");
   const [showAlert, setShowAlert] = useState(false);
 
-  const token = localStorage.getItem("token");
+  // Ref for dropdown
+  const dropdownRef = useRef(null);
 
-  console.log(post);
   useEffect(() => {
-    if (!post) return;
     if (post?.created_at) {
       const date = new Date(post.created_at);
-      const hours = date.getHours();
-      setTime(`${hours}:00 AM`);
+      const formattedTime = date.toLocaleTimeString("en-US", {
+        hour: "2-digit",
+        minute: "2-digit",
+        // second: "2-digit",
+        hour12: true,  // Ensures AM/PM format
+      });
+      setTime(formattedTime);
     }
-  }, [post]);
-
-  // useEffect(() => {
-  //   checkIfLiked();
-  // }, []);
-
-  const handleCommentAdded = (newComment) => {
-    setPosts(prevPosts => prevPosts.map(post => {
-      if (post.id === newComment.post_id) {
-        return { ...post, comments: [...post.comments, newComment] };
-      }
-      return post;
-    }));
-  };
-
+  }, [post?.created_at]);
   
 
-  // const checkIfLiked = async () => {
+  // Get logged-in user from JWT
+  // const getUserFromToken = () => {
+  //   const token = localStorage.getItem("token");
+  //   if (!token) return null;
   //   try {
-  //     const response = await axios.get(`http://localhost:3000/posts/${post.id}/likes`, {
-  //       headers: { Authorization: `Bearer ${token}` },
-  //     });
-  //     const userLiked = response.data.some(like => like.user_id === post.user_id);
-  //     setLiked(userLiked);
+  //     return jwtDecode(token);
   //   } catch (error) {
-  //     console.error("Error checking like status:", error);
+  //     console.error("Invalid token", error);
+  //     return null;
   //   }
   // };
 
-  const handleLike = async () => {
+  const loggedInUser = JSON.parse(localStorage.getItem("user"));
+  // console.log(loggedInUser?.data?.first_name);
+  const isAdmin = loggedInUser?.data?.role === "admin"; // Ensuring scope-based role check
+  const isPostCreator = loggedInUser?.data?.id == post?.user?.id; // Checking if user owns the post
+  const canEditOrDelete = isAdmin || isPostCreator;
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setDropdownOpen(false);
+      }
+    };
+
+    if (dropdownOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [dropdownOpen]);
+
+  const handleLike = useCallback(async () => {
     try {
       if (liked) {
-        await axios.delete(`http://localhost:3000/posts/${post.id}/likes`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        setLikeCount(likeCount - 1);
+        await API.delete(`/posts/${post.id}/likes`);
+        setLikeCount((prev) => prev - 1);
       } else {
-        await axios.post(`http://localhost:3000/posts/${post.id}/likes`, {}, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        setLikeCount(likeCount + 1);
+        await API.post(`/posts/${post.id}/likes`);
+        setLikeCount((prev) => prev + 1);
       }
-      setLiked(!liked);
+      setLiked((prev) => !prev);
     } catch (error) {
-      console.error("Error liking/unliking post:", error);
+      console.error("Error liking/unliking post:", error.response?.data || error.message);
     }
-  };
-  // useEffect(() => {
-  //   fetchComments();
-  // }, [post.id]);
+  }, [liked, post.id]);
 
-  // const fetchComments = async () => {
-  //   try {
-  //     const token = localStorage.getItem("token");
-  //     if (!token) {
-  //       console.error("No token found, user must log in");
-  //       return;
-  //     }
-  //     const response = await axios.get(`http://localhost:3000/posts/${post.id}/comments`, {
-  //       headers: { Authorization: `Bearer ${token}` },
-  //     });
-  //     setComments(response.data);
-  //   } catch (error) {
-  //     console.error("Error fetching comments:", error.response?.data || error.message);
-  //   }
-  // };
-
-  const triggerAlert = (message) => {
-    console.log("Triggering alert with message:", message); // Debugging
-    setAlertMessage(message);
-    setShowAlert(true); // Show the alert
-    console.log("showAlert set to true"); // Debugging
-  };
-  
-  useEffect(() => {
-    if (showAlert) {
-      console.log("Alert is visible, setting timeout to hide it"); // Debugging
-      const timer = setTimeout(() => {
-        console.log("Hiding alert after timeout"); // Debugging
-        setShowAlert(false);
-      }, 3000);
-  
-      return () => clearTimeout(timer); // Cleanup the timer on unmount
-    }
-  }, [showAlert]);
-
-  const handleDelete = async () => {
+  const handleDelete = useCallback(async () => {
     try {
-      const token = localStorage.getItem("token");
-      
-      if (isAdmin) {
-        await axios.delete(`http://localhost:3000/admin/posts/${post?.id}`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-      } else {
-      
-        await axios.delete(`http://localhost:3000/posts/${post?.id}`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-      }
-
-      console.log("Post deleted successfully");
-      //onDelete(post.id); // Notify parent to remove post from state
-      triggerAlert("Post deleted successfully!"); // Call triggerAlert here
+      const url = isAdmin ? `/admin/posts/${post.id}` : `/posts/${post.id}`;
+      await API.delete(url);
+      onDelete(post.id);
+      setShowAlert(true);
+      setTimeout(() => setShowAlert(false), 3000);
     } catch (error) {
       console.error("Error deleting post:", error.response?.data || error.message);
     }
-  };
-
-  const handleUpdate = async () => {
-    try {
-      const token = localStorage.getItem("token");
-      
-      const response = await axios.patch(
-        `http://localhost:3000/posts/${post.id}`,
-        { title: updatedTitle, description: updatedDescription },
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
+  }, [post.id, isAdmin]);
   
-      console.log("Post updated successfully:", response.data);
-      // onUpdate(response.data); // Notify parent to update post in state
-      setEditing(false);
-      triggerAlert("Post updated successfully!"); // Call triggerAlert here
-    } catch (error) {
-      console.error("Error updating post:", error);
-    }
-  };
 
+  const handleUpdate = useCallback(async () => {
+    try {
+      const url = isAdmin ? `/admin/posts/${post.id}` : `/posts/${post.id}`;
+      const response = await API.patch(url, {
+        // title: updatedTitle,
+        description: updatedDescription,
+      });
+      console.log("Post updated successfully:", response.data);
+      setEditing(false);
+      if (onUpdate) {
+       // console.log(response.data.post);
+        onUpdate(response.data.post);
+      } else {
+        console.warn("onUpdate function is not defined.");
+      }
+    } catch (error) {
+      console.error("Error updating post:", error.response?.data || error.message);
+    }
+  }, [post.id, updatedTitle, updatedDescription, isAdmin]);
+
+  // console.log(post);
+  
   return (
-    <div className="post ">
-      {showAlert && (
-  console.log("Rendering alert with message:", alertMessage), // Debugging
-  <div className="alert-center">
-    {alertMessage}
-  </div>
-)}
+    <div className="post">
+      {showAlert && <div className="alert-center">"Post Deleted successfully"</div>}
 
       <div className="post-header">
-        {editing ? (
+        {/* {editing ? (
           <input
             type="text"
             value={updatedTitle}
@@ -177,32 +136,39 @@ const Post = ({ post,  isAdmin }) => {
             className="edit-input"
           />
         ) : (
-          <Link to={`/posts/${post.id}`}>
-            <h2>{post?.user?.first_name}</h2>
+          
+        )} */}
+        <Link to={`/posts/${post.id}`}>
+            <h2>{post?.user?.first_name || post?.title}</h2>
           </Link>
-        )}
-        <div className="kuch-bhi">
-          <span className="post-time">{time} · Public</span>
 
-          {/* Three Dots Dropdown */}
-          <div className="dropdown-container">
-            <img
-              src={ThreeDots}
-              alt="Three Dots"
-              className="three-dots"
-              onClick={() => setDropdownOpen(!dropdownOpen)}
-            />
-            {dropdownOpen && (
-              <div className="dropdown-menu">
-                <button className="dropdown-item" onClick={() => setEditing(!editing)}>
-                  {editing ? "Cancel" : "Edit"}
-                </button>
-                <button className="dropdown-item delete" onClick={handleDelete}>
-                  Delete
-                </button>
-              </div>
-            )}
-          </div>
+        <div className="kuch-bhi">
+        <span className="post-time">
+  {time} <span style={{ marginLeft: "5px", textTransform: "capitalize" }}>{post.visibility}</span>
+</span>
+
+
+          {/* Show three-dot menu only if user is admin or post creator */}
+          {canEditOrDelete && (
+            <div className="dropdown-container" ref={dropdownRef}>
+              <img
+                src={ThreeDots}
+                alt="Three Dots"
+                className="three-dots"
+                onClick={() => setDropdownOpen((prev) => !prev)}
+              />
+              {dropdownOpen && (
+                <div className="dropdown-menu">
+                  <button className="dropdown-item" onClick={() => setEditing((prev) => !prev)}>
+                    {editing ? "Cancel" : "Edit"}
+                  </button>
+                  <button className="dropdown-item delete" onClick={handleDelete}>
+                    Delete
+                  </button>
+                </div>
+              )}
+            </div>
+          )}
         </div>
       </div>
 
@@ -225,26 +191,22 @@ const Post = ({ post,  isAdmin }) => {
       )}
 
       <div className="post-stats">
-      <span>{likeCount} Likes</span>
-        <span>{post?.comments?.length || 0} Comments</span>
-
+        <span>{likeCount} Likes</span>
       </div>
+
       <div className="post-actions">
-      <div className="btn-img" onClick={handleLike}>
+        <div className="btn-img" onClick={handleLike}>
           <img src={liked ? FilledHeart : Heart} alt="Like" />
           <button>{liked ? "Unlike" : "Like"}</button>
         </div>
         <div className="btn-img">
           <img src={CommentLogo} alt="Comment" />
-          <button onClick={() => setShowAll(!showAll)}>Comments</button>
+          <button onClick={() => setShowAll((prev) => !prev)}>Comments</button>
         </div>
       </div>
+
       <div className="post-comment-box">
-      <Comments 
-        post={post} 
-        showAll={showAll}
-        onCommentAdded={handleCommentAdded}  // Add this prop
-      />
+        <Comments post={post} showAll={showAll} />
       </div>
     </div>
   );

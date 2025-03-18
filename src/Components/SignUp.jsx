@@ -2,6 +2,7 @@ import { useState } from "react";
 import API from "../api/axiosInstance"; // Import axios instance
 import { useNavigate } from "react-router-dom";
 import '../styles/SignUp.css';
+import Logo from '../assets/Group.png';
 
 const SignUp = ({onLogin}) => {
   const navigate = useNavigate();
@@ -66,12 +67,12 @@ const SignUp = ({onLogin}) => {
 
   return (
     <div className="app">
-      <header className="header">
-        <div className="logo">
-          {/* <span className="logo-icon">M</span> */}
-          <span className="logo-text">Maze</span>
-        </div>
-      </header>
+       <div className="logo-container">
+              <div className="logo">
+                <img src={Logo} alt="Image"/>
+              </div>
+              <h1 className="logo-text">Maze</h1>
+            </div>
 
       <main className="main-content">
         <div className="form-container">
@@ -160,7 +161,7 @@ const SignUp = ({onLogin}) => {
             </button>
 
             <p className="login-link">
-              Already have an account? <a href="/login">Log in</a>
+              Already have an account? <a href="/signin">Log in</a>
             </p>
           </form>
         </div>

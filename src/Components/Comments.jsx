@@ -1,50 +1,37 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import API from "../api/axiosInstance"; // Use API instance
 import "../styles/Comment.css";
 
-const Comments = ({ post, showAll }) => {
-  const [comments, setComments] = useState([]);
+const Comments = ({ post, showAll, updatePost }) => {
+  const [comments, setComments] = useState(post.comments || []);
   const [newComment, setNewComment] = useState("");
-  //console.log(post);
-  useEffect(() => {
-    // fetchComments();
-  }, [comments]);
 
-  // const fetchComments = async () => {
-  //   try {
-  //     const token = localStorage.getItem("token"); // Retrieve token from localStorage
-  
-  //     if (!token) {
-  //       console.error("No token found, user must log in");
-  //       return;
-  //     }
-  
-  //     const response = await axios.get(`http://localhost:3000/posts/${postId}/comments`, {
-  //       headers: {
-  //         Authorization: `Bearer ${token}`, // Send token in headers
-  //       },
-  //     });
-  //     setComments(response.data);
-  //   } catch (error) {
-  //     console.error("Error fetching comments:", error.response?.data || error.message);
-  //   }
-  // };
+  const user = JSON.parse(localStorage.getItem("user"));
+  console.log(user?.data?.first_name);
+
+  useEffect(() => {
+    setComments(post.comments || []);
+  }, [post]);
 
   const handleCommentSubmit = async (e) => {
     e.preventDefault();
     try {
       const token = localStorage.getItem("token"); // Get JWT token
-      const response = await axios.post(
-        `http://localhost:3000/posts/${post.id}/comments`,
-        { content: newComment }, // Corrected payload
-        {
-          headers: {
-            Authorization: `Bearer ${token}`, // Include token in headers
-          },
-        }
+      const response = await API.post(
+        `/posts/${post.id}/comments`,
+        { content: newComment },
+        // { headers: { Authorization: `Bearer ${token}` } }
       );
-      setComments([...comments, response.data]); // Append new comment
+
+      const newCommentData = response.data;
+      
+      // Update the local comments state
+      setComments((prev) => [...prev, newCommentData]);
       setNewComment("");
+
+      // Update the post in the parent component (Home.jsx)
+     // updatePost(post.id, newCommentData);
+      
     } catch (error) {
       console.error("Error creating comment:", error.response?.data || error.message);
     }
@@ -64,22 +51,20 @@ const Comments = ({ post, showAll }) => {
       </div>
 
       {/* Show only the most recent comment if not expanded */}
-      {!showAll && post?.comments?.length > 0 && (
+      {!showAll && comments.length > 0 && (
         <div className="recent-comment">
-          <strong>{post?.comments[post?.comments?.length - 1].user?.first_name || "Anonymous"}</strong> {/* User Name */}
-          <p>{post.comments[post.comments.length - 1].content}</p>
-          <span className="time">2h</span>
+          <strong>{comments[comments.length - 1]?.user?.first_name || user?.data?.first_name}</strong>
+          <p>{comments[comments.length - 1]?.content}</p>
         </div>
       )}
 
       {/* Show all comments when expanded */}
       {showAll && (
         <ul className="all-comments">
-          {post?.comments?.map((comment) => (
+          {comments.map((comment) => (
             <li key={comment.id}>
-              <strong>{post?.user?.first_name || "Anonymous"}</strong> {/* User Name */}
+              <strong>{comment.user?.first_name || user?.data?.first_name}</strong>
               <p>{comment.content}</p>
-              <span className="time">2h</span>
             </li>
           ))}
         </ul>

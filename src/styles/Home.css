@@ -33,8 +33,9 @@
     }
   
     .sidebar {
-      width: 100%;
+      width: 50%;
       min-height: auto;
+      top: 42px;
     }
   }
   

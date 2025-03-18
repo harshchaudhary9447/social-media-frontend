@@ -1,63 +1,65 @@
-import { Layout, User, LogOut, Users, Flag } from "lucide-react";
+import { useState } from "react";
+import { Layout, User, LogOut, Users, Flag, Menu } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
+import API from "../api/axiosInstance";
 import "../styles/Sidebar.css";
 
-export default function Sidebar({ isAdmin, setActiveSection, onLogout }) {
+export default function Sidebar({ isAdmin, onLogout }) {
   const navigate = useNavigate();
+  const [isOpen, setIsOpen] = useState(false);
 
   const handleLogout = async () => {
     try {
-      const token = localStorage.getItem("token");
-      if (!token) return;
-
-      await axios.delete("http://localhost:3000/users/sign_out", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-
-      // Clear authentication
+      await API.delete("/users/sign_out");
+    } catch (error) {
+      console.error("Error logging out:", error.response?.data || error.message);
+    } finally {
       localStorage.removeItem("token");
       onLogout();
       navigate("/login");
-       // Notify parent component
-      
-    } catch (error) {
-      console.error("Error logging out:", error.response?.data || error.message);
     }
   };
 
+  console.log(isAdmin);
+
   return (
-    <div className="sidebar">
-      <nav className="nav-menu">
-        <button className="nav-item" onClick={() => setActiveSection("feed")}>
-          <Layout />
-          <span>Feed</span>
-        </button>
+    <>
+      <button className="hamburger" onClick={() => setIsOpen(!isOpen)}>
+        <Menu />
+      </button>
 
-        <Link to="/profile" className="nav-item">
-          <User />
-          <span>Profile</span>
-        </Link>
+      <div className={`sidebar ${isOpen ? "open" : ""}`}>
+        <nav className="nav-menu">
+          <Link to="/" className="nav-item">
+            <Layout />
+            <span>Feed</span>
+          </Link>
 
-        {isAdmin && (
-          <>
-            <button className="nav-item" onClick={() => setActiveSection("manageUser")}>
-              <Users />
-              <span>Manage Users</span>
-            </button>
+          <Link to="/profile" className="nav-item">
+            <User />
+            <span>Profile</span>
+          </Link>
 
-            <button className="nav-item" onClick={() => setActiveSection("reports")}>
-              <Flag />
-              <span>Reports</span>
-            </button>
-          </>
-        )}
+          {isAdmin && (
+            <>
+              <Link to="/manage-user" className="nav-item">
+                <Users />
+                <span>Manage Users</span>
+              </Link>
 
-        <button onClick={handleLogout} className="nav-item">
-          <LogOut />
-          <span>Logout</span>
-        </button>
-      </nav>
-    </div>
+              <Link to="/user-report" className="nav-item">
+                <Flag />
+                <span>Reports</span>
+              </Link>
+            </>
+          )}
+
+          <button onClick={handleLogout} className="nav-item">
+            <LogOut />
+            <span>Logout</span>
+          </button>
+        </nav>
+      </div>
+    </>
   );
-};
+}
