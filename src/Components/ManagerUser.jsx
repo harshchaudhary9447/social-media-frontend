@@ -1,28 +1,24 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import API from "../api/axiosInstance"; // Centralized Axios instance
 import { BsThreeDots } from "react-icons/bs";
-import { useOutletContext, Navigate,useNavigate } from "react-router-dom";
+import { useOutletContext, Navigate, useNavigate } from "react-router-dom";
 import Bunny from "../assets/bunny.svg";
 import "../styles/ManageUser.css";
 
-
 const ManageUser = () => {
-
-  const { isAdmin, allUserData,setnavinput } = useOutletContext();
-
+  const { isAdmin, allUserData, setnavinput } = useOutletContext();
   setnavinput(false);
+  
   const user = JSON.parse(localStorage.getItem("user"));
   console.log(user?.data?.first_name);
-  //console.log(alluserdata);
 
   if (!isAdmin) return <Navigate to="/" />;
-  const navigate = useNavigate();
   
+  const navigate = useNavigate();
   const [users, setUsers] = useState([]);
-  const [menuOpen, setMenuOpen] = useState(null);// To track open menu for each user
-   const [dropdownOpen, setDropdownOpen] = useState(false); 
+  const [menuOpen, setMenuOpen] = useState(null); // To track which user's menu is open
+  const dropdownRef = useRef(null); // Reference for dropdown menu
 
-   
   useEffect(() => {
     if (Array.isArray(allUserData)) {
       setUsers(allUserData);
@@ -31,21 +27,22 @@ const ManageUser = () => {
     }
   }, [allUserData]);
 
+  // Close dropdown menu when clicking outside
   useEffect(() => {
-      const handleClickOutside = (event) => {
-        if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-          setDropdownOpen(false);
-        }
-      };
-  
-      if (dropdownOpen) {
-        document.addEventListener("mousedown", handleClickOutside);
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setMenuOpen(null);
       }
-  
-      return () => {
-        document.removeEventListener("mousedown", handleClickOutside);
-      };
-    }, [dropdownOpen]);
+    };
+
+    if (menuOpen !== null) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [menuOpen]);
 
   // Toggle Activation Status
   const toggleUserStatus = useCallback(async (userId, currentStatus) => {
@@ -93,7 +90,6 @@ const ManageUser = () => {
             <h2>User Management</h2>
           </div>
           <div className="maze_admin_profile">
-            {/* <img src={Bunny} alt="Admin" className="maze_admin_avatar" /> */}
             <div className="maze_admin_info">
               <span className="maze_admin_name">{user?.data?.first_name}</span>
               <span className="maze_admin_role">(Admin)</span>
@@ -105,14 +101,13 @@ const ManageUser = () => {
           <div className="maze_users_header">
             <h3>List of Users</h3>
             <div className="bulk-user-btn">
-            <button className="maze_create_user_btn" onClick={() => navigate("/bulk-user")}>
-              <span className="maze_btn_icon">+</span> Upload User
-            </button>
-            <button className="maze_create_user_btn" onClick={() => navigate("/create-user")}>
-              <span className="maze_btn_icon">+</span> Create User
-            </button>
+              <button className="maze_create_user_btn" onClick={() => navigate("/bulk-user")}>
+                <span className="maze_btn_icon">+</span> Upload User
+              </button>
+              <button className="maze_create_user_btn" onClick={() => navigate("/create-user")}>
+                <span className="maze_btn_icon">+</span> Create User
+              </button>
             </div>
-            
           </div>
 
           <div className="maze_users_table_wrapper">
@@ -131,7 +126,6 @@ const ManageUser = () => {
                   <tr key={user.id} className="maze_table_row">
                     <td data-label="Name">
                       <div className="maze_user_info">
-                        {/* <span className="maze_user_avatar">M</span> */}
                         <div className="maze_user_name">
                           <span
                             className={`maze_status_dot ${
@@ -162,7 +156,7 @@ const ManageUser = () => {
                       </button>
 
                       {menuOpen === user.id && (
-                        <div className="dropdown-menu">
+                        <div ref={dropdownRef} className="dropdown-menu">
                           <button onClick={() => deleteUser(user.id)} className="delete-btn">
                             Remove User
                           </button>
@@ -172,13 +166,12 @@ const ManageUser = () => {
                   </tr>
                 ))}
               </tbody>
-
             </table>
           </div>
         </section>
       </main>
     </div>
   );
-}
+};
 
 export default ManageUser;

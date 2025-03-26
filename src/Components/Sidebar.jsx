@@ -15,6 +15,7 @@ export default function Sidebar({ isAdmin, onLogout }) {
       console.error("Error logging out:", error.response?.data || error.message);
     } finally {
       localStorage.removeItem("token");
+      localStorage.removeItem("user");
       onLogout();
       navigate("/login");
     }

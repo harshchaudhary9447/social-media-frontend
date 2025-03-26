@@ -49,13 +49,21 @@ const SignUp = ({onLogin}) => {
     );
     console.log(formData);
 
-      const token = response.headers["authorization"];
+     const token = response.headers["authorization"];
 
-    if (token) {
-       localStorage.setItem("token", token.split(" ")[1]); // Store only the token part
-      // alert("Registration successful! Redirecting...");
-      if (onLogin) onLogin(token);
-      // navigate("/"); // Redirect after successful registration
+     if (token) {
+      let cleanToken = token;
+    
+      if (token.startsWith("Bearer ")) {
+        cleanToken = token.replace("Bearer ", ""); // Remove "Bearer "
+      }
+    
+      console.log("Stored token:", cleanToken); // Check output before saving
+    
+      localStorage.setItem("token", cleanToken);
+      localStorage.setItem("user", JSON.stringify(response.data)); // Store user data
+    
+      if (onLogin) onLogin(cleanToken);
     } else {
       alert("Registration successful, but no token received.");
     }

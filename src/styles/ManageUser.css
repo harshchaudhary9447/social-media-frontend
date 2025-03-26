@@ -207,9 +207,9 @@
     font-weight: 500;
    
   }
-  .maze_table_row {
+  /* .maze_table_row {
     margin-bottom: 100px !important; 
-  }
+  } */
   
   .maze_table_row td {
     padding: 16px;
@@ -376,6 +376,32 @@
       border-radius: 8px;
       padding: 8px 14px;
       font-size: 13px;
+    }
+
+    .maze_users_header
+    {
+      display: flex;
+      flex-direction: column;
+      gap:15px;
+      margin-bottom: 25px;
+    }
+
+    .bulk-user-btn{
+      display: flex;
+      flex-direction: column;
+      gap:12px;
+    }
+
+    .maze_create_user_btn{
+      width: 270px;
+      margin: 0 auto;
+      display: flex;
+    align-items: center;
+    justify-content: center;
+    }
+
+    .maze_dashboard_container{
+      z-index: 0;
     }
   }
   

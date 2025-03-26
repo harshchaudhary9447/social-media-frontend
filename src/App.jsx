@@ -37,11 +37,11 @@ function App() {
     fetchUserRole();
   }, [token]); // Fetch user role whenever token changes
 
-  useEffect(() => {
-    const handleStorage = () => setToken(localStorage.getItem("token"));
-    window.addEventListener("storage", handleStorage);
-    return () => window.removeEventListener("storage", handleStorage);
-  }, []);
+  // useEffect(() => {
+  //   const handleStorage = () => setToken(localStorage.getItem("token"));
+  //   window.addEventListener("storage", handleStorage);
+  //   return () => window.removeEventListener("storage", handleStorage);
+  // }, []);
 
   const handleLogin = (newToken) => {
     localStorage.setItem("token", newToken);
